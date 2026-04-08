@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Estilo Branding</title>
+
+  <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+
+    #qr {
+      margin: 30px auto;
+      width: 300px;
+      height: 300px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      width: 280px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>QR Personalizado (Estilo Profesional)</h2>
+
+  <input type="text" id="text" value="https://tu-link.com">
+
+  <br>
+
+  <input type="color" id="color" value="#000000">
+
+  <br>
+
+  <button onclick="generarQR()">Generar QR</button>
+  <button onclick="descargarPNG()">Descargar PNG</button>
+  <button onclick="descargarSVG()">Descargar SVG</button>
+
+  <div id="qr"></div>
+
+  <script>
+    const qrCode = new QRCodeStyling({
+      width: 300,
+      height: 300,
+      data: "https://tu-link.com",
+
+      // 🔥 PUNTOS INTERNOS
+      dotsOptions: {
+        color: "#000000",
+        type: "dots" // puntitos tipo tu QR
+      },
+
+      // 🔥 ESQUINAS GRANDES (LO IMPORTANTE)
+      cornersSquareOptions: {
+        type: "extra-rounded", // forma gruesa tipo icono
+        color: "#000000"
+      },
+
+      // 🔥 CENTRO DE LAS ESQUINAS
+      cornersDotOptions: {
+        type: "square", // sólido (NO circulito)
+        color: "#000000"
+      },
+
+      backgroundOptions: {
+        color: "#ffffff"
+      }
+    });
+
+    qrCode.append(document.getElementById("qr"));
+
+    function generarQR() {
+      const text = document.getElementById("text").value;
+      const color = document.getElementById("color").value;
+
+      qrCode.update({
+        data: text,
+        dotsOptions: {
+          color: color,
+          type: "dots"
+        },
+        cornersSquareOptions: {
+          type: "extra-rounded",
+          color: color
+        },
+        cornersDotOptions: {
+          type: "square",
+          color: color
+        }
+      });
+    }
+
+    function descargarPNG() {
+      qrCode.download({
+        name: "qr",
+        extension: "png"
+      });
+    }
+
+    function descargarSVG() {
+      qrCode.download({
+        name: "qr",
+        extension: "svg"
+      });
+    }
+  </script>
+
+</body>
+</html>
