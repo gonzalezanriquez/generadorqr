@@ -2,119 +2,144 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>QR Estilo Branding</title>
+  <title>QR Generator Pro</title>
 
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- QR Library -->
   <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
 
   <style>
     body {
-      font-family: Arial;
-      text-align: center;
-      background: #f4f4f4;
-      padding: 30px;
+      background: #f8f9fa;
+    }
+
+    .card {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
 
     #qr {
-      margin: 30px auto;
-      width: 300px;
-      height: 300px;
-    }
-
-    input, button {
-      padding: 10px;
-      margin: 5px;
       width: 280px;
+      height: 280px;
+      margin: auto;
     }
 
-    button {
-      cursor: pointer;
+    .title {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-custom {
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
 
-  <h2>QR Personalizado (Estilo Profesional)</h2>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    
+    <div class="col-md-6">
+      
+      <div class="card p-4">
 
-  <input type="text" id="text" value="https://tu-link.com">
+        <h4 class="text-center mb-4 title">QR Generator</h4>
 
-  <br>
+        <!-- INPUT -->
+        <div class="mb-3">
+          <label class="form-label">Contenido</label>
+          <input type="text" id="text" class="form-control" value="https://tu-link.com">
+        </div>
 
-  <input type="color" id="color" value="#000000">
+        <!-- COLOR -->
+        <div class="mb-3">
+          <label class="form-label">Color</label>
+          <input type="color" id="color" class="form-control form-control-color">
+        </div>
 
-  <br>
+        <!-- BOTONES -->
+        <div class="d-grid gap-2 mb-4">
+          <button onclick="generarQR()" class="btn btn-dark btn-custom">Generar QR</button>
+        </div>
 
-  <button onclick="generarQR()">Generar QR</button>
-  <button onclick="descargarPNG()">Descargar PNG</button>
-  <button onclick="descargarSVG()">Descargar SVG</button>
+        <!-- QR -->
+        <div id="qr" class="mb-4"></div>
 
-  <div id="qr"></div>
+        <!-- DESCARGAS -->
+        <div class="d-flex justify-content-center gap-2">
+          <button onclick="descargarPNG()" class="btn btn-outline-dark btn-sm btn-custom">PNG</button>
+          <button onclick="descargarSVG()" class="btn btn-outline-dark btn-sm btn-custom">SVG</button>
+        </div>
 
-  <script>
-    const qrCode = new QRCodeStyling({
-      width: 300,
-      height: 300,
-      data: "https://tu-link.com",
+      </div>
 
-      // 🔥 PUNTOS INTERNOS
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const qrCode = new QRCodeStyling({
+    width: 280,
+    height: 280,
+    data: "https://tu-link.com",
+
+    // 🔥 PUNTOS INTERNOS
+    dotsOptions: {
+      color: "#000000",
+      type: "dots"
+    },
+
+    // 🔥 ESQUINAS GRUESAS PRO
+    cornersSquareOptions: {
+      type: "extra-rounded",
+      color: "#000000"
+    },
+
+    cornersDotOptions: {
+      type: "square",
+      color: "#000000"
+    },
+
+    backgroundOptions: {
+      color: "#ffffff"
+    }
+  });
+
+  qrCode.append(document.getElementById("qr"));
+
+  function generarQR() {
+    const text = document.getElementById("text").value;
+    const color = document.getElementById("color").value;
+
+    qrCode.update({
+      data: text,
       dotsOptions: {
-        color: "#000000",
-        type: "dots" // puntitos tipo tu QR
+        color: color,
+        type: "dots"
       },
-
-      // 🔥 ESQUINAS GRANDES (LO IMPORTANTE)
       cornersSquareOptions: {
-        type: "extra-rounded", // forma gruesa tipo icono
-        color: "#000000"
+        type: "extra-rounded",
+        color: color
       },
-
-      // 🔥 CENTRO DE LAS ESQUINAS
       cornersDotOptions: {
-        type: "square", // sólido (NO circulito)
-        color: "#000000"
-      },
-
-      backgroundOptions: {
-        color: "#ffffff"
+        type: "square",
+        color: color
       }
     });
+  }
 
-    qrCode.append(document.getElementById("qr"));
+  function descargarPNG() {
+    qrCode.download({ name: "qr", extension: "png" });
+  }
 
-    function generarQR() {
-      const text = document.getElementById("text").value;
-      const color = document.getElementById("color").value;
-
-      qrCode.update({
-        data: text,
-        dotsOptions: {
-          color: color,
-          type: "dots"
-        },
-        cornersSquareOptions: {
-          type: "extra-rounded",
-          color: color
-        },
-        cornersDotOptions: {
-          type: "square",
-          color: color
-        }
-      });
-    }
-
-    function descargarPNG() {
-      qrCode.download({
-        name: "qr",
-        extension: "png"
-      });
-    }
-
-    function descargarSVG() {
-      qrCode.download({
-        name: "qr",
-        extension: "svg"
-      });
-    }
-  </script>
+  function descargarSVG() {
+    qrCode.download({ name: "qr", extension: "svg" });
+  }
+</script>
 
 </body>
 </html>
